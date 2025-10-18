@@ -1,6 +1,4 @@
 {
-	auto_https off
-	skip_install_trust
 }
 
 http://:80 {

@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./wp-content:/var/www/html/wp-content  # For dev edits
+      - ./code/wp-content:/var/www/html/wp-content  # For dev edits
       - caddy_data:/data
       - caddy_config:/config
     environment:  # Pass DB details (optional, but ensures consistency)
@@ -30,6 +30,12 @@ services:
       WORDPRESS_DB_USER: kyoenji_admin
       WORDPRESS_DB_PASSWORD: 12345
       WORDPRESS_DB_NAME: kyoenji_wordpress
+
+  web:
+    depends_on:
+      - wordpress
+    restart: always
+
 
 volumes:
   db_data: {}
