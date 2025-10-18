@@ -1,0 +1,12 @@
+/*
+Theme Name: Kyoenji
+Theme URI: https://kyoenji.jp
+Author: Micah Killian
+Author URI: https://killianarts.online
+Description: A classic WordPress theme with Tailwind CSS 4.0. Custom built for kyoenji.jp
+Version: 1.0
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

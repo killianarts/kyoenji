@@ -1,0 +1,11 @@
+{
+	auto_https off
+	skip_install_trust
+}
+
+http://:80 {
+	root * /var/www/html
+	encode gzip
+
+	php_server
+}
