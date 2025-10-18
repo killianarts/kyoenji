@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest
 
-# Install system dependencies and PHP extensions (remove pgsql, keep mysqli)
+# Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y wget unzip curl \
     && install-php-extensions \
         mysqli \
@@ -12,21 +12,21 @@ RUN apt-get update && apt-get install -y wget unzip curl \
         intl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Source Appliku env vars during build (for DB, etc.)
+COPY env/envs_export.sh /tmp/envs_export.sh
+RUN source /tmp/envs_export.sh
+
 # Set up Caddy directories and permissions
 RUN mkdir -p /data/caddy/pki /config/caddy \
     && chown -R www-data:www-data /data/caddy /config/caddy \
-    && setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp
+    && setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/frankenphp
 
-# Download and extract WordPress core files
-RUN cd /tmp \
-    && wget https://wordpress.org/latest.tar.gz \
-    && tar -xzf latest.tar.gz \
-    && mv wordpress/* /var/www/html/ \
-    && rm -rf /tmp/wordpress latest.tar.gz \
-    && chown -R www-data:www-data /var/www/html
+# Copy WordPress core from local code dir
+COPY code/ /var/www/html/
+RUN chown -R www-data:www-data /var/www/html
 
 # Caddyfile
-COPY Caddyfile /etc/frankenphp/Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
 
 WORKDIR /var/www/html
 USER www-data
