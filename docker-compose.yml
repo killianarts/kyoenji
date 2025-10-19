@@ -14,7 +14,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql  # Persistent data
 
-  wordpress:
+  web:
     build: .
     depends_on:
       - db
@@ -31,10 +31,6 @@ services:
       WORDPRESS_DB_PASSWORD: 12345
       WORDPRESS_DB_NAME: kyoenji_wordpress
 
-  web:
-    depends_on:
-      - wordpress
-    restart: always
 
 
 volumes:
